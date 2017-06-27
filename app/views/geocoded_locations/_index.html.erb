@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Geocoded Locations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Longitude</th>
+      <th>Latitude</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @geocoded_locations.each do |geocoded_location| %>
+      <tr>
+        <td><%= geocoded_location.address %></td>
+        <td><%= geocoded_location.longitude %></td>
+        <td><%= geocoded_location.latitude %></td>
+        <td><%= link_to 'Destroy', geocoded_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
