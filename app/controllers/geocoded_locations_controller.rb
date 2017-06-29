@@ -1,13 +1,10 @@
 class GeocodedLocationsController < ApplicationController
-  before_action :set_geocoded_location, only: [:destroy]
-
+  before_action :set_geocoded_locations, only: [:new, :create]
 
   # GET /geocoded_locations/new
   def new
     @geocoded_location = GeocodedLocation.new
-
-    @geocoded_locations = GeocodedLocation.all
-  end
+ end
 
   # POST /geocoded_locations
   # POST /geocoded_locations.json
@@ -28,7 +25,9 @@ class GeocodedLocationsController < ApplicationController
   # DELETE /geocoded_locations/1
   # DELETE /geocoded_locations/1.json
   def destroy
+    @geocoded_location = GeocodedLocation.find(params[:id])
     @geocoded_location.destroy
+
     respond_to do |format|
       format.html { redirect_to :root, notice: 'Geocoded location was successfully destroyed.' }
       format.json { head :no_content }
@@ -36,9 +35,8 @@ class GeocodedLocationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_geocoded_location
-      @geocoded_location = GeocodedLocation.find(params[:id])
+    def set_geocoded_locations
+      @geocoded_locations = GeocodedLocation.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

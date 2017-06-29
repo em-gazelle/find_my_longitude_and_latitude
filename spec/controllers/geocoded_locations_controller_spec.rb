@@ -20,26 +20,38 @@ require 'rails_helper'
 
 RSpec.describe GeocodedLocationsController, type: :controller do
 
-  let(:geocoded_locations) { Fabricate.times(7, address: Faker::Address.street_address) }
-  let(:valid_address_params) { }
-  let(:invalid_address_params) {}
+  let(:geocoded_locations) { Fabricate.times(7, :geocoded_location, address: Faker::Address.street_address) }
+  let(:valid_address_params) { Fabricate.to_params(:geocoded_location, address: "117A Bartlett St., San Francisco") }
+  let(:invalid_address_params) { Fabricate.to_params(:geocoded_location, address: "808080808080808080808080") }
 
   describe 'new' do
-    context 'when there are geocoded_locations in the DB' do
-      it 'returns all geocoded locations' do
-      end
+    it 'returns status 200' do
+      get :new
+      expect(response.status).to eq(200)
     end
+  end
+  describe 'create' do
     context 'when user supplies accurate address and there is a response from the API' do
-      it 'creates new instance of geocoded_locations with both longitude and latitude' do
+      it 'creates new instance of geocoded_location' do
+        expect{post :create, geocoded_location: valid_address_params}.to change(GeocodedLocation, :count).by(1)
       end
-      it 'adds new instance to index list of geocoded_locations' do
+      it 'redirects to root/new_geocoded_location url' do
+        post :create, geocoded_location: valid_address_params
+        expect(response).to redirect_to(:root)
       end
     end
     context 'when user supplies an address, but address is invalid and an error is returned from the API' do
-      it 'does not create a new geocoded_location' do
+      it 're-renders the new form' do
+        post :create, geocoded_location: invalid_address_params
+        expect(response.status).to eq(200)
+        expect(response).to render_template("new")
       end
-      it 're-renders the new form and gives an error' do
-      end
+    end
+  end
+  describe 'destroy' do
+    it 'destroys instance of geocoded_location' do
+      geocoded_locations
+      expect{delete :destroy, id: geocoded_locations.first.id}.to change(GeocodedLocation, :count).by(-1)
     end
   end
 end
