@@ -1,28 +1,9 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a single page Rails web app that interacts with Google's Geocoder API. Input any address and it returns the longitude, latitude, and fully, properly formatted version of your address. All queries are listed beneath the input form.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+To run this application, first:
+* Generate a Google Geocoder's API Developer Key at: https://developers.google.com/maps/documentation/geocoding/intro
+* Add this line into your config/secrets.yml file:
+    common: &common
+      geocode_api_key: GEOCODE_API_KEY
